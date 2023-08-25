@@ -1,17 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import { Sequelize, DataTypes } from 'sequelize';
-import sequelizeConfig from '../config/database';
+import * as sequelizeConfig from '../config/database';
 
 const basename = path.basename(__filename);
 const db: { [key: string]: any } = {};
-const environment = process.env.NODE_ENV || 'development';
+const environment: string = process.env.NODE_ENV || 'development';
 
-const { username, password, database, ...otherConfig } = sequelizeConfig[environment];
-console.log({
-  otherConfig,
-  username,
-})
+const { username, password, database, ...otherConfig } = sequelizeConfig[environment as keyof typeof sequelizeConfig];
 
 const sequelize = new Sequelize(database, username, password, otherConfig);
 

@@ -10,6 +10,11 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
       },
+      user_id: {
+        type: Sequelize.STRING(100),
+        allowNull: false,
+        unique: true,
+      },
       first_name: {
         type: Sequelize.STRING(50),
         allowNull: false,
@@ -30,11 +35,11 @@ module.exports = {
       active: {
         type: Sequelize.BOOLEAN,
       },
-      created_at: {
+      createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
       },
-      updated_at: {
+      updatedAt: {
         type: Sequelize.DATE,
         allowNull: false,
       },

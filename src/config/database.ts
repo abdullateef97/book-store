@@ -1,6 +1,7 @@
+import { Dialect } from 'sequelize';
 
 const config =  {
-  dialect: 'postgres',
+  dialect: <Dialect>'postgres',
   host: process.env.DATABASE_HOST || '127.0.0.1',
   username: process.env.DATABASE_USERNAME || 'postgres',
   password: process.env.DATABASE_PASSWORD || 'root',

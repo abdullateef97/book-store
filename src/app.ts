@@ -8,9 +8,8 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 import * as middlewares from './middlewares';
-import api from './api';
+import api from './routes';
 import MessageResponse from './interfaces/MessageResponse';
-import models from './models';
 
 const app = express();
 
@@ -30,6 +29,5 @@ app.use('/api/v1', api);
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
 
-// const aaa = models.user.find();
 
 export default app;
