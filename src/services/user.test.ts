@@ -3,6 +3,7 @@ import { CreateUserInterface, LoginUserType, UserInterface } from '../interfaces
 import * as userRepo from '../repositories/user';
 import { createUser, getUserDetails, getUsersList, loginUser } from './user';
 import * as utils from '../utils';
+import { Op } from 'sequelize';
 
 jest.mock('../repositories/user');
 
@@ -155,11 +156,24 @@ describe('tests for get user details', () => {
 describe('tests for get user list', () => {
   it('should call the findAllUsers repo function', async () => {
     findAllUsersMock.mockImplementationOnce(() => Promise.resolve(users));
-    await expect(getUserDetails('user_id')).rejects.toEqual({
-      code: httpStatus.BAD_REQUEST,
-      message: 'Invalid user id',
-    });
     await getUsersList({});
-    expect(findOneUserMock).toHaveBeenCalledTimes(1);
+    expect(findAllUsersMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call findAllUsers with correct where query', async () => {
+    findAllUsersMock.mockImplementationOnce(() => Promise.resolve(users));
+    await getUsersList({
+      user_id: 'user_id',
+      email: 'email',
+      active: false,
+    });
+    const called = findAllUsersMock.mock.calls[0][0];
+    expect(called).toMatchObject({
+      [Op.and]: [
+        { user_id: 'user_id' },
+        { email: 'email' },
+        { active: false },
+      ],
+    });
   });
 });

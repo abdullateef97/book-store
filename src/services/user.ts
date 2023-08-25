@@ -75,7 +75,7 @@ export const getUserDetails = async (userId: string): Promise<UserInterface> => 
 export const getUsersList = async (data: GetUsersListInterface): Promise<UserInterface[]> => {
   const attributesToExclude = ['password', 'id'];
   const where: { [key: string]: any } = {
-    [models.Sequelize.Op.and]: [
+    [Op.and]: [
       ...(data.user_id ? [{ user_id: data.user_id }] : []),
       ...(data.email ? [{ email: data.email }] : []),
       ...(data.active !== undefined ? [{ active: data.active }] : []),

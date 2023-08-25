@@ -3,7 +3,6 @@ import { UserInterface } from './user';
 export interface CreatePostInterface {
   title: string;
   content: string;
-  user_id: number;
 }
 
 export interface PostInterface {

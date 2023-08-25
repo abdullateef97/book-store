@@ -32,7 +32,7 @@ export const getPostDetails = async (postId: number): Promise<PostInterface> => 
     ],
   });
   if (!post) {
-    throw badRequestConstructor('No post found for post_id');
+    throw badRequestConstructor('No post found for post id');
   }
   return post;
 };
@@ -51,7 +51,7 @@ export const createPost = async (data: CreatePostInterface, userId: number): Pro
 export const getPosts = async (data: GetPostListInterface): Promise<PostInterface[]> => {
   const posts: any = await findAllPostsRepo({
     where: {
-      [models.Sequelize.Op.and]: [
+      [Op.and]: [
         ...(data.dateFrom ? [{
           createdAt: {
             [Op.gte]: data.dateFrom,
