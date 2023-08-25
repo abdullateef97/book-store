@@ -12,3 +12,9 @@ const config =  {
 
 export const development = { ...config };
 export const production = { ...config };
+export const test = {
+  ...config,
+  username: 'root',
+  password: 'root',
+  database: 'core_test',
+};

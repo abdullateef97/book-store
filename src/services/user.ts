@@ -3,20 +3,21 @@ import { CreateUserInterface, GetUsersListInterface, LoginUserType, UserInterfac
 import models from '../models';
 import * as utils from '../utils';
 import * as responseManager from '../utils/responseManager';
+import { createUserRepo, findAllUsersRepo, findOneUserRepo } from '../repositories/user';
 
 export const createUser = async (data: CreateUserInterface): Promise<{ [key: string]: any }> => {
-  const existingUser = await models.users.findOne({
-    where: {
-      email: data.email,
-    },
+  const existingUser = await findOneUserRepo({
+    email: data.email,
   });
+  console.log({existingUser})
   if (existingUser) {
     throw responseManager.badRequestConstructor('Please use another email, email already in use');
   }
+  console.log('aaa')
   const hashedPassword = await utils.hashPassword(data.password);
   const userId = utils.generateUserId();
 
-  await models.users.create({
+  await createUserRepo({
     ...data,
     password: hashedPassword,
     user_id: userId,
@@ -37,9 +38,7 @@ export const createUser = async (data: CreateUserInterface): Promise<{ [key: str
 };
 
 export const loginUser = async (data: LoginUserType): Promise<{ [key: string]: any }> => {
-  const user: UserInterface = await models.users.findOne({
-    where: { email: data.email },
-  });
+  const user: UserInterface = await findOneUserRepo({ email: data.email });
 
   if (!user) {
     throw responseManager.badRequestConstructor('Email or Password Invalid');
@@ -67,41 +66,35 @@ export const loginUser = async (data: LoginUserType): Promise<{ [key: string]: a
 
 export const getUserDetails = async (userId: string): Promise<UserInterface> => {
   const attributesToExclude = ['password', 'id'];
-  const user = await models.users.findOne({
-    where: { user_id: userId },
-    attributes: { exclude: attributesToExclude },
-  });
+  const user = await findOneUserRepo({ user_id: userId }, { exclude: attributesToExclude });
 
   if (!user) {
-    throw responseManager.badRequestConstructor('Email or Password Invalid');
+    throw responseManager.badRequestConstructor('Invalid user id');
   }
   return user;
 };
 
 export const getUsersList = async (data: GetUsersListInterface): Promise<UserInterface[]> => {
   const attributesToExclude = ['password', 'id'];
-  const users = await models.users.findAll({
-    where: {
-      [models.Sequelize.Op.and]: [
-        ...(data.user_id ? [{ user_id: data.user_id }] : []),
-        ...(data.email ? [{ email: data.email }] : []),
-        ...(data.active !== undefined ? [{ active: data.active }] : []),
-        ...(data.dateFrom ? [{
-          createdAt: {
-            [Op.gte]: data.dateFrom,
-          },
-        }] : []),
-        ...(data.dateTo ? [{
-          createdAt: {
-            [Op.lte]: data.dateTo,
-          },
-        }] : []),
-      ],
-    },
-    attributes: { exclude: attributesToExclude },
-    raw: true,
-    nested: true,
-  });
+  const where: { [key: string]: any } = {
+    [models.Sequelize.Op.and]: [
+      ...(data.user_id ? [{ user_id: data.user_id }] : []),
+      ...(data.email ? [{ email: data.email }] : []),
+      ...(data.active !== undefined ? [{ active: data.active }] : []),
+      ...(data.dateFrom ? [{
+        createdAt: {
+          [Op.gte]: data.dateFrom,
+        },
+      }] : []),
+      ...(data.dateTo ? [{
+        createdAt: {
+          [Op.lte]: data.dateTo,
+        },
+      }] : []),
+    ],
+  };
+  const attributes = { exclude: attributesToExclude };
+  const users = await findAllUsersRepo(where, attributes);
 
   return users;
 };
