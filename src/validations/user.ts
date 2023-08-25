@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from 'joi';
 import joiDate from '@joi/date';
 
 const dateValidator = Joi.extend(joiDate);
