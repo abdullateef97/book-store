@@ -9,7 +9,9 @@
     "build": "tsc",
     "lint": "eslint --fix src test",
     "test": "jest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "migrate": "sequelize db:migrate",
+    "migrate:all": "sequelize db:migrate:all"
   },
   "keywords": [],
   "repository": {
@@ -18,6 +20,10 @@
   "license": "MIT",
   "dependencies": {
     "@babel/cli": "^7.22.10",
+    "@babel/core": "^7.22.11",
+    "@babel/node": "^7.22.10",
+    "@babel/preset-env": "^7.22.10",
+    "@babel/preset-typescript": "^7.22.11",
     "@babel/register": "^7.22.5",
     "cors": "^2.8.5",
     "dotenv": "^16.1.4",

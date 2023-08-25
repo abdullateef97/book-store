@@ -8,5 +8,4 @@ register({ extensions: ['.ts', '.tsx', '.js', '.jsx'] });
 
 dotenv.config();
 
-
 module.exports = require('./database.ts');
