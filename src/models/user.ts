@@ -16,6 +16,14 @@ module.exports = (sequelize: any, DataTypes: any): any => {
         type: DataTypes.STRING(50),
         allowNull: false,
       },
+      email: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+      },
+      password: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+      },
       active: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
