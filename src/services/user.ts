@@ -9,11 +9,9 @@ export const createUser = async (data: CreateUserInterface): Promise<{ [key: str
   const existingUser = await findOneUserRepo({
     email: data.email,
   });
-  console.log({existingUser})
   if (existingUser) {
     throw responseManager.badRequestConstructor('Please use another email, email already in use');
   }
-  console.log('aaa')
   const hashedPassword = await utils.hashPassword(data.password);
   const userId = utils.generateUserId();
 

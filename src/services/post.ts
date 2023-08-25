@@ -2,10 +2,11 @@ import { Op } from 'sequelize';
 import { AddCommentToPostInterface, CreatePostInterface, GetPostListInterface, PostInterface } from '../interfaces/post';
 import models from '../models';
 import { badRequestConstructor } from '../utils/responseManager';
+import { createCommentRepo, createPostRepo, findAllPostsRepo, findOnePostRepo } from '../repositories/post';
 
 
 export const getPostDetails = async (postId: number): Promise<PostInterface> => {
-  const post = await models.posts.findOne({
+  const post = await findOnePostRepo({
     where: {
       id: postId,
     },
@@ -38,7 +39,7 @@ export const getPostDetails = async (postId: number): Promise<PostInterface> => 
 
 
 export const createPost = async (data: CreatePostInterface, userId: number): Promise<PostInterface> => {
-  const post: PostInterface = await models.posts.create(
+  const post: PostInterface = await createPostRepo(
     {
       ...data,
       user_id: userId,
@@ -48,7 +49,7 @@ export const createPost = async (data: CreatePostInterface, userId: number): Pro
 };
 
 export const getPosts = async (data: GetPostListInterface): Promise<PostInterface[]> => {
-  const posts: any = await models.posts.findAll({
+  const posts: any = await findAllPostsRepo({
     where: {
       [models.Sequelize.Op.and]: [
         ...(data.dateFrom ? [{
@@ -75,7 +76,7 @@ export const getPosts = async (data: GetPostListInterface): Promise<PostInterfac
 };
 
 export const addCommentToPost = async (data: AddCommentToPostInterface, postId: number, userId: number): Promise<PostInterface> => {
-  await models.comments.create({
+  await createCommentRepo({
     ...data,
     user_id: userId,
     post_id: postId,
