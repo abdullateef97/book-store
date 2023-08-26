@@ -1,6 +1,5 @@
 import { Op } from 'sequelize';
 import { CreateUserInterface, GetUsersListInterface, LoginUserType, UserInterface } from '../interfaces/user';
-import models from '../models';
 import * as utils from '../utils';
 import * as responseManager from '../utils/responseManager';
 import { createUserRepo, findAllUsersRepo, findOneUserRepo } from '../repositories/user';

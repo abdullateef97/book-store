@@ -4,7 +4,8 @@
   "description": " A basic starter for an express.js API with Typescript",
   "main": "src/index.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "node ./dist/src/server",
+    "deploy": "npm ci && npm run build && npm run migrate",
     "dev": "ts-node-dev --respawn ./src/index.ts",
     "build": "tsc",
     "lint": "eslint --fix src test",
