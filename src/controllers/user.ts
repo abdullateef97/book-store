@@ -53,3 +53,14 @@ export const getUserList: RequestHandler = async (req, res) => {
     return responseManager.errorResponseConstructor(res, error);
   }
 };
+
+export const performanceChallenge: RequestHandler = async (req, res) => {
+  try {
+    const response = await userService.performanceChallenge();
+    responseManager.successResponseConstructor(res, response);
+  } catch (error) {
+    log.error('error performing performance challenge');
+    log.error(error);
+    return responseManager.errorResponseConstructor(res, error);
+  }
+};

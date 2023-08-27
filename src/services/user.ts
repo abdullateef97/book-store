@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 import { CreateUserInterface, GetUsersListInterface, LoginUserType, UserInterface } from '../interfaces/user';
 import * as utils from '../utils';
 import * as responseManager from '../utils/responseManager';
-import { createUserRepo, findAllUsersRepo, findOneUserRepo } from '../repositories/user';
+import { createUserRepo, findAllUsersRepo, findOneUserRepo, performanceChallengeRepo } from '../repositories/user';
 
 export const createUser = async (data: CreateUserInterface): Promise<{ [key: string]: any }> => {
   const existingUser = await findOneUserRepo({
@@ -96,6 +96,10 @@ export const getUsersList = async (data: GetUsersListInterface): Promise<UserInt
   return users;
 };
 
+export const performanceChallenge = async (): Promise<any[]> => {
+  const [results] = await performanceChallengeRepo();
+  return results;
+};
 
 
 
