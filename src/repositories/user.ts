@@ -7,14 +7,14 @@ export const createUserRepo = async (data: any): Promise<any> => {
 export const findOneUserRepo = async (where: { [key: string]: any }, attributes? : any): Promise<any> => {
   return models.users.findOne({
     where,
-    ...(attributes && attributes),
+    ...(attributes && { attributes }),
   });
 };
 
 export const findAllUsersRepo = async (where: { [key: string]: any }, attributes? : any): Promise<any[]> => {
   return models.users.findAll({
     where,
-    ...(attributes && attributes),
+    ...(attributes && { attributes }),
     raw: true,
     nested: true,
   });
